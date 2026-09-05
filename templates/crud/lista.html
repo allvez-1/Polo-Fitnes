@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ titulo }} | Polo-Fitness{% endblock %}
+
+{% block content %}
+    <h1>{{ titulo }}</h1>
+    <p><a href="{% url criar_url %}">Novo cadastro</a></p>
+
+    {% if objetos %}
+        <ul>
+            {% for objeto in objetos %}
+                <li>
+                    {{ objeto }}
+                    <a href="{% url editar_url objeto.pk %}">Editar</a>
+                    <a href="{% url excluir_url objeto.pk %}">Excluir</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Nenhum registro cadastrado.</p>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ titulo }} | Polo-Fitness{% endblock %}
+
+{% block content %}
+    <h1>{{ titulo }}</h1>
+    {% if erro %}<p>{{ erro }}</p>{% endif %}
+    <p>Tem certeza de que deseja excluir <strong>{{ objeto }}</strong>?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Confirmar exclusão</button>
+    </form>
+    <p><a href="javascript:history.back()">Cancelar</a></p>
+{% endblock %}

@@ -8,7 +8,15 @@
 <body>
     <main>
         <h1>Polo-Fitness</h1>
-        <p>Gerencie o sistema pelo painel administrativo.</p>
+        <p>Gerencie os cadastros do sistema.</p>
+        <nav>
+            <a href="{% url 'alunos:lista' %}">Alunos</a> |
+            <a href="{% url 'instrutor:lista' %}">Instrutores</a> |
+            <a href="{% url 'exercicios:lista' %}">Exercícios</a> |
+            <a href="{% url 'planos:lista' %}">Planos</a> |
+            <a href="{% url 'treinos:lista' %}">Treinos</a>
+        </nav>
+        <p></p>
         <a href="{% url 'admin:index' %}">Acessar administração</a>
     </main>
 </body>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Polo-Fitness{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <a href="{% url 'inicio' %}">Polo-Fitness</a>
+        <nav>
+            <a href="{% url 'alunos:lista' %}">Alunos</a>
+            <a href="{% url 'instrutor:lista' %}">Instrutores</a>
+            <a href="{% url 'exercicios:lista' %}">Exercícios</a>
+            <a href="{% url 'planos:lista' %}">Planos</a>
+            <a href="{% url 'treinos:lista' %}">Treinos</a>
+        </nav>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>
