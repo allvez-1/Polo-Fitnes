@@ -18,8 +18,8 @@ from django.contrib import admin
 from django.urls import include, path
 from django.views.generic import TemplateView
 
-admin.site.site_header = 'Polo-Fitness'
-admin.site.site_title = 'Polo-Fitness Administração'
+admin.site.site_header = 'polo-fitnes'
+admin.site.site_title = 'polo-fitnes Administração'
 admin.site.index_title = 'Painel administrativo'
 
 urlpatterns = [
