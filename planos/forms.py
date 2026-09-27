@@ -6,4 +6,11 @@ from .models import Plano
 class PlanoForm(forms.ModelForm):
     class Meta:
         model = Plano
-        fields = ['nome', 'descricao', 'valor', 'duracao_dias', 'ativo']
+
+        fields = [
+            'nome',
+            'descricao',
+            'valor',
+            'duracao_dias',
+            'ativo',
+        ]

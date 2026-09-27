@@ -20,37 +20,73 @@ class Treino(models.Model):
         auto_now_add=True
     )
 
-    aluno = models.ForeignKey(
-        Aluno,
-        on_delete=models.CASCADE,
-        related_name="treinos"
-    )
-
     instrutor = models.ForeignKey(
         Instrutor,
         on_delete=models.PROTECT,
-        related_name="treinos"
+        related_name='treinos'
     )
 
     exercicios = models.ManyToManyField(
         Exercicio,
-        through="TreinoExercicio",
-        related_name="treinos"
+        through='TreinoExercicio',
+        related_name='treinos'
     )
 
     def __str__(self):
         return self.nome
 
 
+class AlunoTreino(models.Model):
+    aluno = models.ForeignKey(
+        Aluno,
+        on_delete=models.CASCADE,
+        related_name='alunos_treinos'
+    )
+
+    treino = models.ForeignKey(
+        Treino,
+        on_delete=models.CASCADE,
+        related_name='alunos_treinos'
+    )
+
+    data_inicio = models.DateField()
+
+    data_fim = models.DateField(
+        null=True,
+        blank=True
+    )
+
+    ativo = models.BooleanField(
+        default=True
+    )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['aluno', 'treino'],
+                name='aluno_treino_unico'
+            )
+        ]
+
+    def __str__(self):
+        return f'{self.aluno} - {self.treino}'
+
+
 class TreinoExercicio(models.Model):
     treino = models.ForeignKey(
         Treino,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name='treino_exercicios'
     )
 
     exercicio = models.ForeignKey(
         Exercicio,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name='treino_exercicios'
+    )
+
+    ordem = models.PositiveIntegerField(
+        default=1
     )
 
     series = models.PositiveIntegerField(
@@ -71,10 +107,6 @@ class TreinoExercicio(models.Model):
         default=60
     )
 
-    ordem = models.PositiveIntegerField(
-        default=1
-    )
-
     observacao = models.TextField(
         blank=True
     )
@@ -82,12 +114,12 @@ class TreinoExercicio(models.Model):
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=["treino", "exercicio"],
-                name="treino_exercicio_unico"
+                fields=['treino', 'exercicio'],
+                name='treino_exercicio_unico'
             )
         ]
 
-        ordering = ["ordem"]
+        ordering = ['ordem']
 
     def __str__(self):
-        return f"{self.treino} - {self.exercicio}"
+        return f'{self.treino} - {self.exercicio}'
