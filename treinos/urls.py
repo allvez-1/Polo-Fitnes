@@ -8,7 +8,9 @@ app_name = 'treinos'
 
 urlpatterns = [
 
+    # ==========================
     # TREINO
+    # ==========================
 
     path(
         '',
@@ -34,8 +36,16 @@ urlpatterns = [
         name='excluir'
     ),
 
+    path(
+        '<int:pk>/detalhes/',
+        views.detalhes,
+        name='detalhes'
+    ),
 
+
+    # ==========================
     # ALUNO TREINO
+    # ==========================
 
     path(
         'alunos/',
@@ -61,8 +71,16 @@ urlpatterns = [
         name='excluir_aluno_treino'
     ),
 
+    path(
+        'alunos/<int:pk>/detalhes/',
+        views.detalhes_aluno_treino,
+        name='detalhes_aluno_treino'
+    ),
 
+
+    # ==========================
     # TREINO EXERCICIO
+    # ==========================
 
     path(
         'exercicios/',
@@ -86,5 +104,11 @@ urlpatterns = [
         'exercicios/<int:pk>/excluir/',
         views.excluir_treino_exercicio,
         name='excluir_treino_exercicio'
+    ),
+
+    path(
+        'exercicios/<int:pk>/detalhes/',
+        views.detalhes_treino_exercicio,
+        name='detalhes_treino_exercicio'
     ),
 ]

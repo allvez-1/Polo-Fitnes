@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from django.db.models.deletion import ProtectedError
 
@@ -5,10 +6,12 @@ from .forms import InstrutorForm
 from .models import Instrutor
 
 
+@login_required
 def lista(request):
-    return render(request, 'crud/lista.html', {'objetos': Instrutor.objects.all(), 'titulo': 'Instrutores', 'criar_url': 'instrutor:criar', 'editar_url': 'instrutor:editar', 'excluir_url': 'instrutor:excluir'})
+    return render(request, 'crud/lista.html', {'objetos': Instrutor.objects.all(), 'titulo': 'Instrutores', 'criar_url': 'instrutor:criar', 'editar_url': 'instrutor:editar', 'excluir_url': 'instrutor:excluir', 'detalhes_url': 'instrutor:detalhes'})
 
 
+@login_required
 def criar(request):
     form = InstrutorForm(request.POST or None)
     if request.method == 'POST' and form.is_valid():
@@ -17,6 +20,7 @@ def criar(request):
     return render(request, 'crud/formulario.html', {'form': form, 'titulo': 'Cadastrar instrutor'})
 
 
+@login_required
 def editar(request, pk):
     instrutor = get_object_or_404(Instrutor, pk=pk)
     form = InstrutorForm(request.POST or None, instance=instrutor)
@@ -26,6 +30,7 @@ def editar(request, pk):
     return render(request, 'crud/formulario.html', {'form': form, 'titulo': 'Editar instrutor'})
 
 
+@login_required
 def excluir(request, pk):
     instrutor = get_object_or_404(Instrutor, pk=pk)
     if request.method == 'POST':
@@ -39,3 +44,21 @@ def excluir(request, pk):
         else:
             return redirect('instrutor:lista')
     return render(request, 'crud/confirmar_exclusao.html', {'objeto': instrutor, 'titulo': 'Excluir instrutor'})
+
+@login_required
+def detalhes(request, pk):
+    instrutor = get_object_or_404(Instrutor, pk=pk)
+
+    campos = [
+        ('Nome', instrutor.nome),
+        ('CPF', instrutor.cpf),
+        ('Especialidade', instrutor.especialidade),
+        ('CREF', instrutor.cref),
+        ('Ativo', 'Sim' if instrutor.ativo else 'Não'),
+    ]
+
+    return render(request, 'crud/detalhes.html', {
+        'objeto': instrutor,
+        'campos': campos,
+        'titulo': 'Detalhes do instrutor',
+    })

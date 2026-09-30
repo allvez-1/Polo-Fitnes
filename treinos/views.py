@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import (
@@ -17,6 +18,7 @@ from .models import (
 # CRUD TREINO
 # ==========================
 
+@login_required
 def lista(request):
     treinos = Treino.objects.select_related(
         'instrutor'
@@ -31,10 +33,12 @@ def lista(request):
             'criar_url': 'treinos:criar',
             'editar_url': 'treinos:editar',
             'excluir_url': 'treinos:excluir',
+            'detalhes_url': 'treinos:detalhes',
         }
     )
 
 
+@login_required
 def criar(request):
     form = TreinoForm(request.POST or None)
 
@@ -55,6 +59,7 @@ def criar(request):
     )
 
 
+@login_required
 def editar(request, pk):
     treino = get_object_or_404(
         Treino,
@@ -83,6 +88,7 @@ def editar(request, pk):
     )
 
 
+@login_required
 def excluir(request, pk):
     treino = get_object_or_404(
         Treino,
@@ -106,10 +112,48 @@ def excluir(request, pk):
     )
 
 
+@login_required
+def detalhes(request, pk):
+    treino = get_object_or_404(
+        Treino,
+        pk=pk
+    )
+
+    alunos = ', '.join(
+        str(relacao.aluno)
+        for relacao in treino.alunos_treinos.select_related('aluno')
+    ) or 'Nenhum aluno associado'
+    exercicios = ', '.join(
+        str(exercicio)
+        for exercicio in treino.exercicios.all()
+    ) or 'Nenhum exercício associado'
+
+    campos = [
+        ('Nome', treino.nome),
+        ('Objetivo', treino.objetivo),
+        ('Descrição', treino.descricao),
+        ('Data de criação', treino.data_criacao),
+        ('Instrutor', treino.instrutor),
+        ('Alunos', alunos),
+        ('Exercícios', exercicios),
+    ]
+
+    return render(
+        request,
+        'crud/detalhes.html',
+        {
+            'objeto': treino,
+            'campos': campos,
+            'titulo': 'Detalhes do treino',
+        }
+    )
+
+
 # ==========================
 # CRUD ALUNO TREINO
 # ==========================
 
+@login_required
 def lista_aluno_treino(request):
     objetos = AlunoTreino.objects.select_related(
         'aluno',
@@ -125,10 +169,12 @@ def lista_aluno_treino(request):
             'criar_url': 'treinos:criar_aluno_treino',
             'editar_url': 'treinos:editar_aluno_treino',
             'excluir_url': 'treinos:excluir_aluno_treino',
+            'detalhes_url': 'treinos:detalhes_aluno_treino',
         }
     )
 
 
+@login_required
 def criar_aluno_treino(request):
     form = AlunoTreinoForm(
         request.POST or None
@@ -151,6 +197,7 @@ def criar_aluno_treino(request):
     )
 
 
+@login_required
 def editar_aluno_treino(request, pk):
     aluno_treino = get_object_or_404(
         AlunoTreino,
@@ -179,6 +226,7 @@ def editar_aluno_treino(request, pk):
     )
 
 
+@login_required
 def excluir_aluno_treino(request, pk):
     aluno_treino = get_object_or_404(
         AlunoTreino,
@@ -202,10 +250,37 @@ def excluir_aluno_treino(request, pk):
     )
 
 
+@login_required
+def detalhes_aluno_treino(request, pk):
+    aluno_treino = get_object_or_404(
+        AlunoTreino,
+        pk=pk
+    )
+
+    campos = [
+        ('Aluno', aluno_treino.aluno),
+        ('Treino', aluno_treino.treino),
+        ('Data de início', aluno_treino.data_inicio),
+        ('Data de fim', aluno_treino.data_fim),
+        ('Ativo', 'Sim' if aluno_treino.ativo else 'Não'),
+    ]
+
+    return render(
+        request,
+        'crud/detalhes.html',
+        {
+            'objeto': aluno_treino,
+            'campos': campos,
+            'titulo': 'Detalhes do treino do aluno',
+        }
+    )
+
+
 # ==========================
 # CRUD TREINO EXERCICIO
 # ==========================
 
+@login_required
 def lista_treino_exercicio(request):
     objetos = TreinoExercicio.objects.select_related(
         'treino',
@@ -221,10 +296,12 @@ def lista_treino_exercicio(request):
             'criar_url': 'treinos:criar_treino_exercicio',
             'editar_url': 'treinos:editar_treino_exercicio',
             'excluir_url': 'treinos:excluir_treino_exercicio',
+            'detalhes_url': 'treinos:detalhes_treino_exercicio',
         }
     )
 
 
+@login_required
 def criar_treino_exercicio(request):
     form = TreinoExercicioForm(
         request.POST or None
@@ -247,6 +324,7 @@ def criar_treino_exercicio(request):
     )
 
 
+@login_required
 def editar_treino_exercicio(request, pk):
     treino_exercicio = get_object_or_404(
         TreinoExercicio,
@@ -275,6 +353,7 @@ def editar_treino_exercicio(request, pk):
     )
 
 
+@login_required
 def excluir_treino_exercicio(request, pk):
     treino_exercicio = get_object_or_404(
         TreinoExercicio,
@@ -294,5 +373,34 @@ def excluir_treino_exercicio(request, pk):
         {
             'objeto': treino_exercicio,
             'titulo': 'Remover exercício do treino'
+        }
+    )
+
+
+@login_required
+def detalhes_treino_exercicio(request, pk):
+    treino_exercicio = get_object_or_404(
+        TreinoExercicio,
+        pk=pk
+    )
+
+    campos = [
+        ('Treino', treino_exercicio.treino),
+        ('Exercício', treino_exercicio.exercicio),
+        ('Ordem', treino_exercicio.ordem),
+        ('Séries', treino_exercicio.series),
+        ('Repetições', treino_exercicio.repeticoes),
+        ('Carga (kg)', treino_exercicio.carga_kg),
+        ('Descanso (segundos)', treino_exercicio.descanso_segundos),
+        ('Observação', treino_exercicio.observacao),
+    ]
+
+    return render(
+        request,
+        'crud/detalhes.html',
+        {
+            'objeto': treino_exercicio,
+            'campos': campos,
+            'titulo': 'Detalhes do exercício do treino',
         }
     )

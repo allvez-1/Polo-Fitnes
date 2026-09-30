@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ titulo }} | Polo Fitnes{% endblock %}
+
+{% block content %}
+
+<h1>{{ titulo }}</h1>
+
+<ul>
+    {% for campo, valor in campos %}
+        <li>
+            <strong>{{ campo }}:</strong> {{ valor }}
+        </li>
+    {% endfor %}
+</ul>
+
+<p>
+    <a href="javascript:history.back()">Voltar</a>
+</p>
+
+{% endblock %}
