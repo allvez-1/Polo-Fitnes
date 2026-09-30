@@ -12,10 +12,6 @@ class Treino(models.Model):
         max_length=150
     )
 
-    descricao = models.TextField(
-        blank=True
-    )
-
     data_criacao = models.DateField(
         auto_now_add=True
     )
