@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Criar conta | Polo Fitnes{% endblock %}
+
+{% block content %}
+    <h1>Criar conta</h1>
+    <p>Após o cadastro, um administrador precisará ativar sua conta.</p>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Cadastrar</button>
+    </form>
+    <p><a href="{% url 'login' %}">Já tenho uma conta</a></p>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block title %}Cadastro recebido | Polo Fitnes{% endblock %}
+
+{% block content %}
+    <h1>Cadastro recebido</h1>
+    <p>Sua conta aguarda a ativação de um administrador. Você poderá entrar após a aprovação.</p>
+    <p><a href="{% url 'login' %}">Ir para o login</a></p>
+{% endblock %}

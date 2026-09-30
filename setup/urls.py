@@ -64,6 +64,18 @@ urlpatterns = [
     ),
 
     path(
+        'accounts/register/',
+        views.cadastro,
+        name='cadastro'
+    ),
+
+    path(
+        'accounts/register/pending/',
+        views.cadastro_pendente,
+        name='cadastro_pendente'
+    ),
+
+    path(
         'accounts/',
         include('django.contrib.auth.urls')
     ),
