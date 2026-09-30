@@ -26,9 +26,10 @@ class Treino(models.Model):
         related_name='treinos'
     )
 
-    exercicios = models.ManyToManyField(
+    exercicios = models.ForeignKey(
         Exercicio,
         through='TreinoExercicio',
+        on_delete=models.PROTECT,
         related_name='treinos'
     )
 
@@ -37,9 +38,9 @@ class Treino(models.Model):
 
 
 class AlunoTreino(models.Model):
-    aluno = models.ForeignKey(
+    aluno = models.ManyToManyField(
         Aluno,
-        on_delete=models.CASCADE,
+        through='AlunoTreino',
         related_name='alunos_treinos'
     )
 
