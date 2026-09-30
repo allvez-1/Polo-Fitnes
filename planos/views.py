@@ -1,4 +1,4 @@
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import get_object_or_404, redirect, render
 from django.db.models.deletion import ProtectedError
 
@@ -12,6 +12,7 @@ def lista(request):
 
 
 @login_required
+@permission_required('planos.add_plano', raise_exception=True)
 def criar(request):
     form = PlanoForm(request.POST or None)
     if request.method == 'POST' and form.is_valid():
@@ -21,6 +22,7 @@ def criar(request):
 
 
 @login_required
+@permission_required('planos.change_plano', raise_exception=True)
 def editar(request, pk):
     plano = get_object_or_404(Plano, pk=pk)
     form = PlanoForm(request.POST or None, instance=plano)
@@ -31,6 +33,7 @@ def editar(request, pk):
 
 
 @login_required
+@permission_required('planos.delete_plano', raise_exception=True)
 def excluir(request, pk):
     plano = get_object_or_404(Plano, pk=pk)
     if request.method == 'POST':

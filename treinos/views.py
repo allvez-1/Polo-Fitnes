@@ -1,4 +1,4 @@
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import (
@@ -39,6 +39,7 @@ def lista(request):
 
 
 @login_required
+@permission_required('treinos.add_treino', raise_exception=True)
 def criar(request):
     form = TreinoForm(request.POST or None)
 
@@ -60,6 +61,7 @@ def criar(request):
 
 
 @login_required
+@permission_required('treinos.change_treino', raise_exception=True)
 def editar(request, pk):
     treino = get_object_or_404(
         Treino,
@@ -89,6 +91,7 @@ def editar(request, pk):
 
 
 @login_required
+@permission_required('treinos.delete_treino', raise_exception=True)
 def excluir(request, pk):
     treino = get_object_or_404(
         Treino,
@@ -175,6 +178,7 @@ def lista_aluno_treino(request):
 
 
 @login_required
+@permission_required('treinos.add_alunotreino', raise_exception=True)
 def criar_aluno_treino(request):
     form = AlunoTreinoForm(
         request.POST or None
@@ -198,6 +202,7 @@ def criar_aluno_treino(request):
 
 
 @login_required
+@permission_required('treinos.change_alunotreino', raise_exception=True)
 def editar_aluno_treino(request, pk):
     aluno_treino = get_object_or_404(
         AlunoTreino,
@@ -227,6 +232,7 @@ def editar_aluno_treino(request, pk):
 
 
 @login_required
+@permission_required('treinos.delete_alunotreino', raise_exception=True)
 def excluir_aluno_treino(request, pk):
     aluno_treino = get_object_or_404(
         AlunoTreino,
@@ -302,6 +308,7 @@ def lista_treino_exercicio(request):
 
 
 @login_required
+@permission_required('treinos.add_treinoexercicio', raise_exception=True)
 def criar_treino_exercicio(request):
     form = TreinoExercicioForm(
         request.POST or None
@@ -325,6 +332,7 @@ def criar_treino_exercicio(request):
 
 
 @login_required
+@permission_required('treinos.change_treinoexercicio', raise_exception=True)
 def editar_treino_exercicio(request, pk):
     treino_exercicio = get_object_or_404(
         TreinoExercicio,
@@ -354,6 +362,7 @@ def editar_treino_exercicio(request, pk):
 
 
 @login_required
+@permission_required('treinos.delete_treinoexercicio', raise_exception=True)
 def excluir_treino_exercicio(request, pk):
     treino_exercicio = get_object_or_404(
         TreinoExercicio,

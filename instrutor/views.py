@@ -1,4 +1,4 @@
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import get_object_or_404, redirect, render
 from django.db.models.deletion import ProtectedError
 
@@ -12,6 +12,7 @@ def lista(request):
 
 
 @login_required
+@permission_required('instrutor.add_instrutor', raise_exception=True)
 def criar(request):
     form = InstrutorForm(request.POST or None)
     if request.method == 'POST' and form.is_valid():
@@ -21,6 +22,7 @@ def criar(request):
 
 
 @login_required
+@permission_required('instrutor.change_instrutor', raise_exception=True)
 def editar(request, pk):
     instrutor = get_object_or_404(Instrutor, pk=pk)
     form = InstrutorForm(request.POST or None, instance=instrutor)
@@ -31,6 +33,7 @@ def editar(request, pk):
 
 
 @login_required
+@permission_required('instrutor.delete_instrutor', raise_exception=True)
 def excluir(request, pk):
     instrutor = get_object_or_404(Instrutor, pk=pk)
     if request.method == 'POST':

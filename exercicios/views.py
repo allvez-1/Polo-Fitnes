@@ -1,4 +1,4 @@
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import ExercicioForm
@@ -22,6 +22,7 @@ def lista(request):
 
 
 @login_required
+@permission_required('exercicios.add_exercicio', raise_exception=True)
 def criar(request):
     form = ExercicioForm(request.POST or None)
 
@@ -43,6 +44,7 @@ def criar(request):
 
 
 @login_required
+@permission_required('exercicios.change_exercicio', raise_exception=True)
 def editar(request, pk):
     exercicio = get_object_or_404(
         Exercicio,
@@ -72,6 +74,7 @@ def editar(request, pk):
 
 
 @login_required
+@permission_required('exercicios.delete_exercicio', raise_exception=True)
 def excluir(request, pk):
     exercicio = get_object_or_404(
         Exercicio,
