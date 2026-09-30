@@ -6,7 +6,7 @@ from .models import Plano
 
 
 def lista(request):
-    return render(request, 'crud/lista.html', {'objetos': Plano.objects.all(), 'titulo': 'Planos', 'criar_url': 'planos:criar', 'editar_url': 'planos:editar', 'excluir_url': 'planos:excluir'})
+    return render(request, 'crud/lista.html', {'objetos': Plano.objects.all(), 'titulo': 'Planos', 'criar_url': 'planos:criar', 'editar_url': 'planos:editar', 'excluir_url': 'planos:excluir', 'detalhes_url': 'planos:detalhes'})
 
 
 def criar(request):
@@ -39,3 +39,20 @@ def excluir(request, pk):
         else:
             return redirect('planos:lista')
     return render(request, 'crud/confirmar_exclusao.html', {'objeto': plano, 'titulo': 'Excluir plano'})
+
+def detalhes(request, pk):
+    plano = get_object_or_404(Plano, pk=pk)
+
+    campos = [
+        ('Nome', plano.nome),
+        ('Descrição', plano.descricao),
+        ('Valor', plano.valor),
+        ('Duração em dias', plano.duracao_dias),
+        ('Ativo', 'Sim' if plano.ativo else 'Não'),
+    ]
+
+    return render(request, 'crud/detalhes.html', {
+        'objeto': plano,
+        'campos': campos,
+        'titulo': 'Detalhes do plano',
+    })

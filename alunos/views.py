@@ -9,6 +9,7 @@ def lista(request):
         'objetos': Aluno.objects.select_related('plano').all(), 'titulo': 'Alunos',
         'criar_url': 'alunos:criar', 'editar_url': 'alunos:editar',
         'excluir_url': 'alunos:excluir',
+        'detalhes_url': 'alunos:detalhes',
     })
 
 
@@ -35,3 +36,21 @@ def excluir(request, pk):
         aluno.delete()
         return redirect('alunos:lista')
     return render(request, 'crud/confirmar_exclusao.html', {'objeto': aluno, 'titulo': 'Excluir aluno'})
+
+def detalhes(request, pk):
+    aluno = get_object_or_404(Aluno, pk=pk)
+
+    campos = [
+        ('Nome', aluno.nome),
+        ('CPF', aluno.cpf),
+        ('Data de matrícula', aluno.data_matricula),
+        ('Data de vencimento', aluno.data_vencimento),
+        ('Ativo', 'Sim' if aluno.ativo else 'Não'),
+        ('Plano', aluno.plano),
+    ]
+
+    return render(request, 'crud/detalhes.html', {
+        'objeto': aluno,
+        'campos': campos,
+        'titulo': 'Detalhes do aluno',
+    })

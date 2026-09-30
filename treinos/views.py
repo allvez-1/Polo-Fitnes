@@ -31,6 +31,7 @@ def lista(request):
             'criar_url': 'treinos:criar',
             'editar_url': 'treinos:editar',
             'excluir_url': 'treinos:excluir',
+            'detalhes_url': 'treinos:detalhes',
         }
     )
 
@@ -106,6 +107,35 @@ def excluir(request, pk):
     )
 
 
+def detalhes(request, pk):
+    treino = get_object_or_404(
+        Treino,
+        pk=pk
+    )
+
+    alunos = treino.alunos_treinos.all()
+
+    campos = [
+        ('Nome', treino.nome),
+        ('Objetivo', treino.objetivo),
+        ('Descrição', treino.descricao),
+        ('Data de criação', treino.data_criacao),
+        ('Instrutor', treino.instrutor),
+        ('Alunos', alunos),
+        ('Exercícios', treino.exercicios.all()),
+    ]
+
+    return render(
+        request,
+        'crud/detalhes.html',
+        {
+            'objeto': treino,
+            'campos': campos,
+            'titulo': 'Detalhes do treino',
+        }
+    )
+
+
 # ==========================
 # CRUD ALUNO TREINO
 # ==========================
@@ -125,6 +155,7 @@ def lista_aluno_treino(request):
             'criar_url': 'treinos:criar_aluno_treino',
             'editar_url': 'treinos:editar_aluno_treino',
             'excluir_url': 'treinos:excluir_aluno_treino',
+            'detalhes_url': 'treinos:detalhes_aluno_treino',
         }
     )
 
@@ -202,6 +233,31 @@ def excluir_aluno_treino(request, pk):
     )
 
 
+def detalhes_aluno_treino(request, pk):
+    aluno_treino = get_object_or_404(
+        AlunoTreino,
+        pk=pk
+    )
+
+    campos = [
+        ('Aluno', aluno_treino.aluno),
+        ('Treino', aluno_treino.treino),
+        ('Data de início', aluno_treino.data_inicio),
+        ('Data de fim', aluno_treino.data_fim),
+        ('Ativo', 'Sim' if aluno_treino.ativo else 'Não'),
+    ]
+
+    return render(
+        request,
+        'crud/detalhes.html',
+        {
+            'objeto': aluno_treino,
+            'campos': campos,
+            'titulo': 'Detalhes do treino do aluno',
+        }
+    )
+
+
 # ==========================
 # CRUD TREINO EXERCICIO
 # ==========================
@@ -221,6 +277,7 @@ def lista_treino_exercicio(request):
             'criar_url': 'treinos:criar_treino_exercicio',
             'editar_url': 'treinos:editar_treino_exercicio',
             'excluir_url': 'treinos:excluir_treino_exercicio',
+            'detalhes_url': 'treinos:detalhes_treino_exercicio',
         }
     )
 
@@ -294,5 +351,33 @@ def excluir_treino_exercicio(request, pk):
         {
             'objeto': treino_exercicio,
             'titulo': 'Remover exercício do treino'
+        }
+    )
+
+
+def detalhes_treino_exercicio(request, pk):
+    treino_exercicio = get_object_or_404(
+        TreinoExercicio,
+        pk=pk
+    )
+
+    campos = [
+        ('Treino', treino_exercicio.treino),
+        ('Exercício', treino_exercicio.exercicio),
+        ('Ordem', treino_exercicio.ordem),
+        ('Séries', treino_exercicio.series),
+        ('Repetições', treino_exercicio.repeticoes),
+        ('Carga (kg)', treino_exercicio.carga_kg),
+        ('Descanso (segundos)', treino_exercicio.descanso_segundos),
+        ('Observação', treino_exercicio.observacao),
+    ]
+
+    return render(
+        request,
+        'crud/detalhes.html',
+        {
+            'objeto': treino_exercicio,
+            'campos': campos,
+            'titulo': 'Detalhes do exercício do treino',
         }
     )

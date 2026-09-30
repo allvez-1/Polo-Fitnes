@@ -6,7 +6,7 @@ from .models import Instrutor
 
 
 def lista(request):
-    return render(request, 'crud/lista.html', {'objetos': Instrutor.objects.all(), 'titulo': 'Instrutores', 'criar_url': 'instrutor:criar', 'editar_url': 'instrutor:editar', 'excluir_url': 'instrutor:excluir'})
+    return render(request, 'crud/lista.html', {'objetos': Instrutor.objects.all(), 'titulo': 'Instrutores', 'criar_url': 'instrutor:criar', 'editar_url': 'instrutor:editar', 'excluir_url': 'instrutor:excluir', 'detalhes_url': 'instrutor:detalhes'})
 
 
 def criar(request):
@@ -39,3 +39,20 @@ def excluir(request, pk):
         else:
             return redirect('instrutor:lista')
     return render(request, 'crud/confirmar_exclusao.html', {'objeto': instrutor, 'titulo': 'Excluir instrutor'})
+
+def detalhes(request, pk):
+    instrutor = get_object_or_404(Instrutor, pk=pk)
+
+    campos = [
+        ('Nome', instrutor.nome),
+        ('CPF', instrutor.cpf),
+        ('Especialidade', instrutor.especialidade),
+        ('CREF', instrutor.cref),
+        ('Ativo', 'Sim' if instrutor.ativo else 'Não'),
+    ]
+
+    return render(request, 'crud/detalhes.html', {
+        'objeto': instrutor,
+        'campos': campos,
+        'titulo': 'Detalhes do instrutor',
+    })
