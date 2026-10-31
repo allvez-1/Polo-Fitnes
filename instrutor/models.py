@@ -1,8 +1,8 @@
 from django.db import models
-from django.contrib.auth.models import User
 
 
-class Instrutor(User):
+
+class Instrutor(models.Model):
     
     nome = models.CharField(max_length=150)
     cpf = models.CharField(
