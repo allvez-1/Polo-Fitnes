@@ -128,7 +128,7 @@ def detalhes(request, pk):
     ) or 'Nenhum aluno associado'
 
     exercicios = ', '.join(
-        str(exercicios)
+        str(relacao.exercicio)
       for relacao in treino.treino_exercicios.select_related('exercicio')
     ) or 'Nenhum exercício associado'
 

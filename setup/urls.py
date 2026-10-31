@@ -80,3 +80,6 @@ urlpatterns = [
         include('django.contrib.auth.urls')
     ),
 ]
+
+
+handler403 = 'setup.views.acesso_negado'
