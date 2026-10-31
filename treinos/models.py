@@ -22,21 +22,15 @@ class Treino(models.Model):
         related_name='treinos'
     )
 
-    exercicios = models.ForeignKey(
-        Exercicio,
-        through='TreinoExercicio',
-        on_delete=models.PROTECT,
-        related_name='treinos'
-    )
 
     def __str__(self):
         return self.nome
 
 
 class AlunoTreino(models.Model):
-    aluno = models.ManyToManyField(
+    aluno = models.ForeignKey(
         Aluno,
-        through='AlunoTreino',
+        on_delete= models.CASCADE,
         related_name='alunos_treinos'
     )
 

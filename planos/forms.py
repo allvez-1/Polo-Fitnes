@@ -8,9 +8,11 @@ class PlanoForm(forms.ModelForm):
         model = Plano
 
         fields = [
+
             'nome',
-            'descricao',
             'valor',
             'duracao_dias',
             'ativo',
         ]
+
+        
