@@ -9,7 +9,6 @@ class TreinoForm(forms.ModelForm):
         fields = [
             'nome',
             'objetivo',
-            'descricao',
             'instrutor'
         ]
 
