@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Acesso negado — Polo Fitnes{% endblock %}
+{% block content %}
+<section role="alert" style="max-width: 640px; margin: 3rem auto; padding: 1.5rem; border: 1px solid #db8c8c; border-radius: 8px; background: #fff5f5; color: #632626;">
+  <h1>403 — Acesso negado</h1>
+  <p>Você não possui permissão para realizar esta ação.</p>
+  <p>Se precisar de acesso, entre em contato com o administrador.</p>
+  <a href="{% url 'inicio' %}">Voltar para o início</a>
+</section>
+{% endblock %}

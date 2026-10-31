@@ -30,3 +30,6 @@ def cadastro(request):
 @login_not_required
 def cadastro_pendente(request):
     return render(request, 'registration/cadastro_pendente.html')
+
+def acesso_negado(request, exception):
+    return render(request, '403.html', status=403)

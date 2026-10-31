@@ -126,15 +126,16 @@ def detalhes(request, pk):
         str(relacao.aluno)
         for relacao in treino.alunos_treinos.select_related('aluno')
     ) or 'Nenhum aluno associado'
+
     exercicios = ', '.join(
-        str(exercicio)
-        for exercicio in treino.exercicios.all()
+        str(exercicios)
+      for relacao in treino.treino_exercicios.select_related('exercicio')
     ) or 'Nenhum exercício associado'
 
     campos = [
         ('Nome', treino.nome),
         ('Objetivo', treino.objetivo),
-        ('Descrição', treino.descricao),
+
         ('Data de criação', treino.data_criacao),
         ('Instrutor', treino.instrutor),
         ('Alunos', alunos),
