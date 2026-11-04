@@ -8,7 +8,7 @@ from .forms import PublicSignUpForm
 def inicio(request):
     return render(
         request,
-        'polo_fitnes.html'
+        'index.html'
     )
 
 
